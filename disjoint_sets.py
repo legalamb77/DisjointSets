@@ -16,15 +16,23 @@ class DisjointSet:
     '''
 
     def __init__(self):
-        '''
-        The members dictionary hashes the value to the corresponding node
-        '''
+        # The members dictionary hashes the value to the corresponding node
         self.members = dict()
 
+    '''
+    Input: Value to be retrieved from sets.
+    Output: Node corresponding to the value if it is present, None otherwise.
+    '''
+    def get(self, val):
+        if val in self.members:
+            return self.members[val]
+        else:
+            return None
+
     def make_set(self, val):
-        if val not in members:
+        if val not in self.members:
             # The rank is initially 0 since it is a new set
-            members[val] = Node(0, val)
+            self.members[val] = Node(0, val)
 
     '''
     Takes input of a given node in the members dictionary.
@@ -32,7 +40,7 @@ class DisjointSet:
     '''
     def find(self, n):
         if n.parent != n:
-            self.members[n.data].parent = find(n.parent)
+            self.members[n.data].parent = self.find(n.parent)
         return n.parent
 
     def union(self, n1, n2):
@@ -49,3 +57,18 @@ class DisjointSet:
             else:
                 self.members[root_n2.data].parent = root_n1
                 self.members[root_n1.data].rank = root_n1.rank+1
+
+
+if __name__ == "__main__":
+    print("Beginning tests.")
+    sets = DisjointSet()
+    for i in range(4):
+        sets.make_set(i)
+    sets.union(sets.get(0), sets.get(1))
+    sets.union(sets.get(2), sets.get(3))
+    print(sets.members.items())
+    for m in sets.members.values():
+        print("VALUE")
+        print(m.data)
+        print("PARENT")
+        print(sets.find(m).data)
