@@ -8,6 +8,7 @@ class Node:
         self.rank = rnk
         self.parent = self
         self.data = d
+        self.size = 1
 
 
 class DisjointSet:
@@ -51,11 +52,14 @@ class DisjointSet:
             return True
         else:
             if root_n1.rank > root_n2.rank:
-                self.members[root_n2.data].parent = root_n1
+                self.members[root_n1.data].size += self.members[root_n2.data].size
+                self.members[root_n2.data].parent = self.members[root_n1.data]
             elif root_n1.rank < root_n2.rank:
-                self.members[root_n1.data].parent = root_n2
+                self.members[root_n2.data].size += self.members[root_n1.data].size
+                self.members[root_n1.data].parent = self.members[root_n2.data]
             else:
-                self.members[root_n2.data].parent = root_n1
+                self.members[root_n1.data].size += self.members[root_n2.data].size
+                self.members[root_n2.data].parent = self.members[root_n1.data]
                 self.members[root_n1.data].rank = root_n1.rank+1
 
 
