@@ -41,7 +41,7 @@ class DisjointSet:
     '''
     def find(self, n):
         if n.parent != n:
-            self.members[n.data].parent = self.find(n.parent)
+            n.parent = self.find(n.parent)
         return n.parent
 
     def union(self, n1, n2):
